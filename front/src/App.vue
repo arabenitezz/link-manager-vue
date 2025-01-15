@@ -74,6 +74,11 @@ onMounted(() => {
 
 <template>
   <div class="app">
+    <div class="banner">
+    <img
+      src="https://i.imgur.com/mVYEAsv.gif"
+      alt="Banner animado"
+    /></div>
     <div class="container">
       <h1>
         <font-awesome-icon :icon="['fas', 'plus-circle']" /> Añadir nuevo enlace
@@ -175,10 +180,27 @@ onMounted(() => {
 /* Fondo general de la aplicación */
 .app {
   min-height: 100vh;
-  background-color: #121212;
+  background-color: #000000;
   color: #e0e0e0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.banner {
+  position: relative;
+  width: 100%;
+  height: auto; /* Permite que la altura se ajuste según el contenido */
+  overflow: hidden;
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  background-color: #000000; /* Fondo para rellenar el espacio vacío, opcional */
+}
+
+.banner img {
+  max-width: 100%; /* Escala el GIF proporcionalmente al ancho */
+  height: auto; /* Mantiene la proporción del GIF */
+}
+
 
 /* Contenedor principal */
 .container {
@@ -189,7 +211,7 @@ onMounted(() => {
 
 /* Tarjetas */
 .card {
-  background: #1e1e1e;
+  background: #161616;
   border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 2rem;
@@ -212,8 +234,8 @@ onMounted(() => {
 }
 
 button {
-  background-color: #30a390;
-  color: white;
+  background-color: gold;
+  color: black;
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 4px;
@@ -222,7 +244,7 @@ button {
 }
 
 button:hover {
-  background-color: #248070;
+  background-color: goldenrod;
 }
 
 /* Sección de búsqueda */
@@ -274,7 +296,7 @@ button:hover {
 }
 
 .link-info a {
-  color: #46e5d8;
+  color: goldenrod;
   text-decoration: none;
 }
 
@@ -310,7 +332,7 @@ button:hover {
 }
 
 .vote-section button:hover {
-  color: #46e5d8;
+  color: gold;
 }
 
 .vote-count {
