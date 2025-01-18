@@ -1,8 +1,7 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import { ref, onMounted, getCurrentInstance } from 'vue';
 
-const API_URL = 'https://link-manager-backend-production.up.railway.app/api';
+const { proxy } = getCurrentInstance();
 
 // Estados reactivos
 const links = ref([]);
@@ -14,7 +13,7 @@ const searchTags = ref('');
 // Métodos
 const fetchLinks = async (tags = '') => {
   try {
-    const response = await axios.get(`${API_URL}/links${tags ? `?tags=${tags}` : ''}`);
+    const response = await proxy.$axios.get(`/links${tags ? `?tags=${tags}` : ''}`);
     links.value = response.data;
   } catch (error) {
     console.error('Error fetching links:', error);
@@ -29,7 +28,7 @@ const handleSearch = async (e) => {
 const handleSubmitLink = async (e) => {
   e.preventDefault();
   try {
-    const response = await axios.post(`${API_URL}/links`, {
+    const response = await proxy.$axios.post('/links', {
       ...newLink.value,
       tags: newLink.value.tags.split(',').map(tag => tag.trim())
     });
@@ -42,7 +41,7 @@ const handleSubmitLink = async (e) => {
 
 const handleVote = async (id, voteType) => {
   try {
-    const response = await axios.patch(`${API_URL}/links/${id}/vote`, { voteType });
+    const response = await proxy.$axios.patch(`/links/${id}/vote`, { voteType });
     const index = links.value.findIndex(link => link._id === response.data._id);
     if (index !== -1) {
       links.value[index] = response.data;
@@ -55,9 +54,9 @@ const handleVote = async (id, voteType) => {
 const handleSubmitComment = async (e) => {
   e.preventDefault();
   try {
-    await axios.post(`${API_URL}/comments`, newComment.value);
+    await proxy.$axios.post('/comments', newComment.value);
     if (selectedLink.value) {
-      const response = await axios.get(`${API_URL}/links/${selectedLink.value._id}`);
+      const response = await proxy.$axios.get(`/links/${selectedLink.value._id}`);
       selectedLink.value = response.data;
     }
     newComment.value = { text: '', linkId: '' };
@@ -75,31 +74,21 @@ onMounted(() => {
 <template>
   <div class="app">
     <div class="banner">
-    <img
-      src="https://i.imgur.com/mVYEAsv.gif"
-      alt="Banner animado"
-    /></div>
+      <img src="https://i.imgur.com/mVYEAsv.gif" alt="Banner animado" />
+    </div>
     <div class="container">
       <h1>
         <font-awesome-icon :icon="['fas', 'plus-circle']" /> Añadir nuevo enlace
       </h1>
       <div class="card">
         <form @submit.prevent="handleSubmitLink" class="form">
-          <input
-            v-model="newLink.title"
-            type="text"
-            placeholder="Título"
-          >
-          <input
-            v-model="newLink.url"
-            type="url"
-            placeholder="URL"
-          >
+          <input v-model="newLink.title" type="text" placeholder="Título" />
+          <input v-model="newLink.url" type="url" placeholder="URL" />
           <input
             v-model="newLink.tags"
             type="text"
             placeholder="Tags (separados por comas)"
-          >
+          />
           <button type="submit">Añadir enlace</button>
         </form>
       </div>
@@ -114,7 +103,7 @@ onMounted(() => {
             type="text"
             placeholder="Buscar por etiquetas (separadas por comas)"
             class="search-input"
-          >
+          />
           <button type="submit">Buscar</button>
         </form>
       </div>
@@ -150,7 +139,7 @@ onMounted(() => {
               </button>
             </div>
           </div>
-          
+
           <div v-if="selectedLink?._id === link._id" class="comments-section">
             <h3>Comentarios</h3>
             <form @submit.prevent="handleSubmitComment" class="comment-form">
@@ -159,13 +148,15 @@ onMounted(() => {
                 type="text"
                 placeholder="Añadir comentario"
                 @input="newComment.linkId = link._id"
-              >
+              />
               <button type="submit">Comentar</button>
             </form>
             <div class="comments-list">
-              <div v-for="comment in selectedLink.comments" 
-                   :key="comment._id" 
-                   class="comment">
+              <div
+                v-for="comment in selectedLink.comments"
+                :key="comment._id"
+                class="comment"
+              >
                 {{ comment.text }}
               </div>
             </div>
