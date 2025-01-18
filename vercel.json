@@ -1,0 +1,19 @@
+{
+    "rewrites": [
+      {
+        "source": "/**",
+        "destination": "/index.html"
+      }
+    ],
+    "builds": [
+      {
+        "src": "front/index.html",
+        "use": "@vercel/static"
+      },
+      {
+        "src": "front/**/*.js",
+        "use": "@vercel/static"
+      }
+    ]
+  }
+  
