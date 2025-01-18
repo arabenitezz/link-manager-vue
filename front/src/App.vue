@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://link-manager-backend-production.up.railway.app/api';
 
 // Estados reactivos
 const links = ref([]);
