@@ -20,7 +20,7 @@ const app = createApp(App)
 
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.config.globalProperties.$axios = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'https://link-manager-backend-production.up.railway.app/api',
 })
 
 app.mount('#app')
