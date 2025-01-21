@@ -1,6 +1,6 @@
-# Front
+# VUE Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+Frontend inspired by Hollow Knight, here's the deployment: https://link-manager-vue.vercel.app/
 
 ## Recommended IDE Setup
 
